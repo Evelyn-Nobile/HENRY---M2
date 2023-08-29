@@ -6,8 +6,8 @@ let toDoItems = []
 // Usando querySelector seleccionar dicho span por su id ('createdBy') y luego usando innerHTML
 // agregar tu nombre al final del texto actual. Ej: 'Aplicación creada por Franco'
 // Tu código acá:
-const app = document.getElementById("createdBy")
-app.innerHTML = 'Aplicación creada por Evelyn'
+const app = document.querySelector("#createdBy")
+app.innerHTML += 'Evelyn'
 // Crear una clase denominada 'ToDo' cuyo constructor debe recibir un único parámetro del tipo string
 // con el nombre 'description' que será justamente la descripción del ToDo.
 // Agregar dos propiedades a la clase:
@@ -46,27 +46,29 @@ ToDo.prototype.completeToDo = function(){
 //    7) Agregar 'toDoText' como hijo de 'toDoShell'
 //    8) Devolver la variable toDoShell
 
-function buildToDo(todo, index) {
-  // Tu código acá:
-  const toDoShell = document.createElement("div");
-  toDoShell.className = 'toDoShell'
-  let toDoText = document.createElement("span");
-  toDoText.innerHTML = todo.description
-  toDoText.id = index
-  if(todo.complete === true) toDoText.className='completeText'
-  toDoShell.appendChild(toDoText)
-return toDoShell
+// function buildToDo(todo, index) { //todo: ToDo{description: '', complete:false} index: num
+//   // Tu código acá:
+//   const toDoShell = document.createElement("div");
+//   toDoShell.className = 'toDoShell'
+//   let toDoText = document.createElement("span");
+//   toDoText.innerHTML = todo.description
+//   toDoText.id = index
+//   if(todo.complete === true) toDoText.className='completeText'
+//   toDoShell.appendChild(toDoText)
+// return toDoShell
 
-}
+// }
 
 // La función 'buildToDos' debe crear un array de objetos toDo y devolverlo
 // Recibirá como parámetro un array de objetos ToDo
 // Utilizar el método map usando la función previamente creada ('buildToDo')
 // Devolver el nuevo array
 
-function buildToDos(toDos) {
-  return toDos.map(function(todo, index) {
-    return buildToDo(todo, index); // Retornar el resultado de buildToDo
+function buildToDos(toDos) { //[ToDo {description: '', complete:false}, {description: '', complete:false}]
+  return toDos.map(function(todo, index) { //todo: hace referencia al elemento que esta recorriendo el array,
+    //en este caso, cada objeto y el segundo es el indice o sea la posicion de cada obj dentro del array
+    return buildToDo(todo, index); // Retornar el resultado de buildToDo. Crea un array con los div de la funcion todo
+    //return ToDos.map(buildToDo)
   });
 }
 // La función 'displayToDos' se va a encargar de que se vean los toDo's en pantalla
@@ -105,7 +107,8 @@ function addToDo() {
 
   // Paso 1: Crear un nuevo ToDo usando la clase ToDo y el valor del input 'toDoInput'
   const toDoInput = document.getElementById('toDoInput'); 
-  const newToDoValue = toDoInput.value;
+  if(toDoInput.value !== ''){ //si el usuario no escribe nada no se hace nada
+  const newToDoValue = toDoInput.value; //se guarda en la prop. description
   const newToDo = new ToDo(newToDoValue);
 
   // Paso 2: Agregar el objeto ToDo recién creado al array toDoItems
@@ -113,7 +116,7 @@ function addToDo() {
 
   // Paso 3: Setear el valor del input toDoInput como un string vacío
   toDoInput.value = '';
-
+}
   // Paso 4: Llamar a la función displayToDos para actualizar los toDos mostrados en pantalla
   displayToDos();
 }
@@ -129,7 +132,8 @@ function addToDo() {
 // Tu código acá:
 
 const button = document.getElementById('addButton')
-button.addEventListener("click", addToDo)
+button.addEventListener("click", addToDo) //no se invoca a la funcion (addTodo()) porque no quiero que se ejecute en 
+//el momento sino cuando el usuario haga click
 
 // La función completeToDo se va a ejecutar cuando queramos completar un todo
 // [NOTA: Algunas cuestiones a tener en cuenta
@@ -160,27 +164,32 @@ function completeToDo(event) {
 function buildToDo(todo, index) {
   const toDoShell = document.createElement("div");
   toDoShell.className = 'toDoShell';
-  
+  // Se crea un elemento <input> de tipo "checkbox" y se le asigna un ID basado en el índice.
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
   checkbox.id = index;
+  
+// Se establece la clase "completeCheckbox" en el checkbox.
   checkbox.className = 'completeCheckbox';
   checkbox.checked = todo.complete; // Usar el atributo 'complete' de todo
-  
+  // Se agrega un event listener "click" al checkbox, utilizando la función completeToDo como callback.
   checkbox.addEventListener('click', completeToDo); // Usar el checkbox como callback
   
   const todoText = document.createElement('span');
   todoText.innerText = todo.description;
-  
+  // Si el atributo complete de todo es true, se establece el atributo checked del checkbox en true.
   if (todo.complete === true) {
     todoText.className = 'completeText';
   }
-  
+  // Se agrega el checkbox antes del elemento de texto todoText en el elemento toDoShell.
   toDoShell.appendChild(checkbox); // Agregar el checkbox antes del texto
   toDoShell.appendChild(todoText);
   
   return toDoShell;
 }
+
+
+
 
 
 // Una vez que llegaste a este punto verificá que todos los tests pasen
