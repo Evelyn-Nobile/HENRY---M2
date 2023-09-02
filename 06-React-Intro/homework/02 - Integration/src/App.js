@@ -2,7 +2,10 @@ import './App.css';
 import Card from './components/Card.jsx';
 import Cards from './components/Cards.jsx';
 import SearchBar from './components/SearchBar.jsx';
-import characters, { Rick } from './data.js';
+import { Rick, characters } from './data.js';
+
+// Ahora puedes usar Rick y characters en tu componente React
+
 
 function App() {
    return (

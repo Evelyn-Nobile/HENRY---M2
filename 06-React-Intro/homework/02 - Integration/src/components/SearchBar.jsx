@@ -1,8 +1,12 @@
-export default function SearchBar(props) {
+ import React  from "react";
+ 
+ function SearchBar({onSearch}) {
    return (
       <div>
-         {/* <input type='search' />
-         <button onClick={}>Agregar</button> */}
+          <input type='search' />
+         <button onClick={onSearch}>Agregar</button> 
       </div>
    );
 }
+
+export default SearchBar;
